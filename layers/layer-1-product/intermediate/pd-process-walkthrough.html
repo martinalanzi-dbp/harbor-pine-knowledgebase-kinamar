@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harbor &amp; Pine — dónde estamos y qué necesitamos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafafa;--surface:#fff;--ink:#18181b;--ink2:#3f3f46;--muted:#71717a;--line:#e4e4e7;--accent:#047857;--accent-soft:#ecfdf5;
+--sans:"Outfit",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(17px,1.5vw,21px);line-height:1.5;-webkit-font-smoothing:antialiased}
+.slide{min-height:100dvh;scroll-snap-align:start;display:grid;align-content:center;padding:clamp(56px,9vh,96px) clamp(24px,7vw,120px);max-width:1360px;margin:0 auto;position:relative}
+.kicker{font-family:var(--mono);font-size:.7em;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1,h2{letter-spacing:-.03em;line-height:1.05;font-weight:600}
+h1{font-size:clamp(2.4rem,6vw,4.6rem);max-width:14ch}
+h2{font-size:clamp(1.9rem,4vw,3.1rem);max-width:20ch;margin-bottom:clamp(28px,5vh,52px)}
+p{color:var(--ink2);max-width:52ch}
+.sub{font-size:1.2em;margin-top:24px}
+.src{font-family:var(--mono);font-size:.62em;color:var(--muted);display:block;margin-top:4px;word-break:break-word}
+
+/* pipeline (slide 2) */
+.pipe{display:grid;gap:0;counter-reset:s}
+.pipe div{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:22px 0;border-top:1px solid var(--line);align-items:baseline}
+.pipe div:last-child{border-bottom:1px solid var(--line)}
+.pipe div::before{counter-increment:s;content:counter(s);font-family:var(--mono);font-size:1.6em;color:var(--accent);letter-spacing:-.04em}
+.pipe b{font-size:1.25em;font-weight:600;display:block}
+.pipe span{color:var(--ink2)}
+@media(min-width:900px){.pipe{grid-template-columns:repeat(4,1fr);gap:28px}.pipe div{grid-template-columns:1fr;border-top:2px solid var(--ink);padding:18px 0 0;border-bottom:0!important}.pipe div:nth-child(2){margin-top:28px}.pipe div:nth-child(3){margin-top:56px}.pipe div:nth-child(4){margin-top:84px}}
+
+/* sources table */
+.tbl{display:grid;gap:0}
+.tbl div{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:14px 0;border-top:1px solid var(--line)}
+.tbl div:last-child{border-bottom:1px solid var(--line)}
+.tbl time{font-family:var(--mono);font-size:.75em;color:var(--muted);padding-top:.25em}
+.tbl b{font-weight:600}
+.tbl span{color:var(--ink2);font-size:.9em;display:block}
+@media(min-width:1000px){.tbl{grid-template-columns:1fr 1fr;column-gap:56px}.tbl div:nth-last-child(2){border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.tbl div{grid-template-columns:1fr;gap:2px}}
+
+/* lists */
+.two{display:grid;gap:36px}
+@media(min-width:900px){.two{grid-template-columns:1fr 1fr;gap:72px}}
+.col h3{font-size:1.05em;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:6px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.col ul{list-style:none;padding:0}
+.col li{padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink2);font-size:.92em}
+.col li b{color:var(--ink);font-weight:600}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.d-a{background:var(--accent)}
+.d-f{border:2px solid var(--accent)}
+.d-i{border:2px dashed var(--muted)}
+.d-p{background:var(--ink);border-radius:3px}
+
+/* gaps */
+.gaps{list-style:none;padding:0;display:grid;gap:0}
+@media(min-width:900px){.gaps{grid-template-columns:1fr 1fr;column-gap:72px}}
+.gaps li{padding:16px 0;border-top:1px solid var(--line);color:var(--ink2);font-size:.95em}
+.gaps b{color:var(--ink);font-weight:600;margin-right:6px}
+
+/* big numbers */
+.hero-n{display:grid;gap:40px;align-items:end}
+@media(min-width:900px){.hero-n{grid-template-columns:auto 1fr;gap:80px}}
+.huge{font-family:var(--mono);font-size:clamp(6rem,18vw,13rem);line-height:.85;letter-spacing:-.06em;font-weight:500}
+.bars{display:grid;gap:14px}
+.bar{display:grid;grid-template-columns:minmax(120px,210px) 1fr 28px;gap:14px;align-items:center;font-size:.9em}
+.bar i{display:block;height:12px;border-radius:6px;background:var(--ink);transform-origin:left;transform:scaleX(0);transition:transform 1s var(--ease)}
+.on .bar i{transform:scaleX(1)}
+.bar b{font-family:var(--mono);font-weight:500;text-align:right}
+.bar.you i{background:var(--accent)}
+.legend{margin-top:26px;font-size:.8em;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}
+.legend span{display:flex;gap:8px;align-items:center}
+
+/* asks */
+.asks{display:grid;gap:28px}
+@media(min-width:900px){.asks{grid-template-columns:1.1fr 1fr;gap:72px}}
+.asks h3{font-size:.8em;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500;margin-bottom:6px}
+.ask{padding:16px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:6px}
+.ask::before{content:attr(data-n);font-family:var(--mono);color:var(--accent)}
+.ask b{font-weight:600}
+.ask span{color:var(--ink2);font-size:.9em;display:block}
+.you-box{background:var(--ink);color:#fafafa;border-radius:28px;padding:clamp(24px,3vw,40px)}
+.you-box h3{color:#a1a1aa}.you-box p,.you-box b{color:#fafafa}
+.you-box .ask{border-top-color:#3f3f46}
+.you-box .ask::before{color:#6ee7b7}
+.you-box .ask span{color:#d4d4d8}
+
+/* chrome */
+.nav{position:fixed;right:clamp(16px,3vw,40px);bottom:clamp(16px,3vh,32px);display:flex;gap:8px;align-items:center;z-index:5;font-family:var(--mono);font-size:13px;color:var(--muted);background:rgba(250,250,250,.85);backdrop-filter:blur(8px);border:1px solid var(--line);padding:6px 8px 6px 16px;border-radius:999px}
+.nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:16px;color:var(--ink);transition:transform .25s var(--ease)}
+.nav button:active{transform:scale(.92)}
+.nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fade{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0)*80ms)}
+.on .fade{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fade{opacity:1;transform:none;transition:none}.bar i{transform:none;transition:none}}
+@media print{.nav{display:none}.slide{min-height:auto;break-after:page}.fade{opacity:1;transform:none}.bar i{transform:none}}
+</style>
+</head>
+<body>
+
+<section class="slide on" id="s1">
+  <p class="kicker fade">Harbor &amp; Pine · 2 de noviembre de 2026</p>
+  <h1 class="fade" style="--i:1">Dónde estamos y qué necesitamos de ustedes</h1>
+  <p class="sub fade" style="--i:2">Recibimos los materiales del cliente, completamos los documentos de negocio y producto, y buscamos en esos materiales las respuestas que faltaban. Esto es lo que quedó resuelto y lo que sigue abierto.</p>
+</section>
+
+<section class="slide" id="s2">
+  <p class="kicker fade">Lo que hicimos</p>
+  <h2 class="fade" style="--i:1">Cuatro pasos, de los archivos a los documentos</h2>
+  <div class="pipe">
+    <div class="fade" style="--i:2"><p><b>Recibimos</b><span>7 archivos del cliente: notas, PRD, kickoff, entrevistas, pizarrón, competidor.</span></p></div>
+    <div class="fade" style="--i:3"><p><b>Subimos</b><span>Todo a raw-inputs de Layer 0, más la respuesta de Operations en Layer 1.</span></p></div>
+    <div class="fade" style="--i:4"><p><b>Completamos</b><span>8 templates y 2 journeys, citando la fuente de cada dato. Estado: needs_review.</span></p></div>
+    <div class="fade" style="--i:5"><p><b>Cruzamos</b><span>Lo que el PD no sabía el 8 de mayo, contra el resto de los documentos.</span></p></div>
+  </div>
+</section>
+
+<section class="slide" id="s3">
+  <p class="kicker fade">Lo que recibimos</p>
+  <h2 class="fade" style="--i:1">Siete fuentes, ninguna cerrada</h2>
+  <div class="tbl">
+    <div class="fade"><time>8 mayo</time><p><b>Notas pre-kickoff</b><span>Del PD, tras el handoff con Sales.</span></p></div>
+    <div class="fade" style="--i:1"><time>11 mayo</time><p><b>PRD v0.9</b><span>Borrador para alinear, no backlog aprobado.</span></p></div>
+    <div class="fade" style="--i:2"><time>12 mayo</time><p><b>Kickoff</b><span>Transcripción parcial, la grabación se cortó.</span></p></div>
+    <div class="fade" style="--i:3"><time>13–14 mayo</time><p><b>Entrevistas a 2 guías</b><span>Lisboa y Barcelona. Ningún tour observado.</span></p></div>
+    <div class="fade" style="--i:4"><time>sin fecha</time><p><b>Pizarrón del día del tour</b><span>Autor y fecha desconocidos.</span></p></div>
+    <div class="fade" style="--i:5"><time>sin fecha</time><p><b>Ficha de GetYourGuide</b><span>Punto de partida, no es una investigación.</span></p></div>
+    <div class="fade" style="--i:6"><time>15 mayo</time><p><b>Respuesta de Operations</b><span>Restricciones del piloto, por email.</span></p></div>
+  </div>
+</section>
+
+<section class="slide" id="s4">
+  <p class="kicker fade">El punto de partida</p>
+  <h2 class="fade" style="--i:1">Esto no se sabía el 8 de mayo</h2>
+  <ul class="gaps">
+    <li class="fade"><b>Ocho semanas:</b>prototipo, prueba o lanzamiento en vivo.</li>
+    <li class="fade" style="--i:1"><b>MVP:</b>sin lista de funciones acordada.</li>
+    <li class="fade" style="--i:2"><b>KPIs:</b>sin línea base ni objetivos.</li>
+    <li class="fade" style="--i:3"><b>Sistemas actuales:</b>stack y herramientas desconocidos.</li>
+    <li class="fade" style="--i:4"><b>Aprobaciones:</b>sin responsables acordados.</li>
+    <li class="fade" style="--i:5"><b>Marca:</b>materiales no recibidos.</li>
+    <li class="fade" style="--i:6"><b>Competidores:</b>solo GetYourGuide, sin estudio.</li>
+    <li class="fade" style="--i:7"><b>Contactos:</b>nombres pendientes de Sales.</li>
+  </ul>
+</section>
+
+<section class="slide" id="s5">
+  <p class="kicker fade">Lo que pudimos cerrar</p>
+  <h2 class="fade" style="--i:1">Respondido por el cliente, y encontrado en documentos</h2>
+  <div class="two">
+    <div class="col fade" style="--i:2">
+      <h3><span class="dot d-a"></span>Respondido</h3>
+      <ul>
+        <li><b>38%</b> de las actividades tiene disponibilidad sincronizada (de actividades, no de reservas).<span class="src">03-operations-follow-up.md</span></li>
+        <li><b>Pago ≠ aceptación.</b> Algunos operadores tardan hasta 12 h.<span class="src">03-operations-follow-up.md</span></li>
+        <li><b>Cambios en reservas pagadas</b> los aprueba Operations o el operador.<span class="src">03-operations-follow-up.md</span></li>
+        <li><b>Plataforma:</b> un link en el teléfono. Referencia: GetYourGuide.<span class="src">pre-kickoff-harbor-and-pine.md</span></li>
+      </ul>
+    </div>
+    <div class="col fade" style="--i:3">
+      <h3><span class="dot d-f"></span>Encontrado en documentos</h3>
+      <ul>
+        <li><b>Piloto:</b> Lisboa y Barcelona, inglés y español.<span class="src">PRD v0.9 · kickoff</span></li>
+        <li><b>Primer lanzamiento</b> para viajeros. Hoteles no lo retrasa.<span class="src">kickoff</span></li>
+        <li><b>La IA recomienda</b>, no mueve una reserva pagada sin aprobación.<span class="src">kickoff · PRD</span></li>
+        <li><b>El dolor está en el día de la actividad.</b> Los dos guías piden info offline y avisos antes de cambios.<span class="src">kickoff · entrevistas</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s6">
+  <p class="kicker fade">Lo que inferimos</p>
+  <h2 class="fade" style="--i:1">Tres lecturas nuestras, sin confirmar</h2>
+  <div class="col fade" style="--i:2">
+    <h3><span class="dot d-i"></span>Inferido</h3>
+    <ul>
+      <li><b>Ventaja competitiva:</b> la operación local en Lisboa y Barcelona. Hipótesis, no hay investigación.<span class="src">competitive-landscape.md</span></li>
+      <li><b>Qué molesta al operador:</b> cambios que ignoran sus condiciones, como mover a un viajero a un tour más caro.<span class="src">user-personas.md</span></li>
+      <li><b>«Pilot brief» = PRD v0.9.</b> El cliente lo nombró, nadie lo confirmó.<span class="src">domain-glossary.md</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide" id="s7">
+  <p class="kicker fade">Lo que sigue abierto</p>
+  <div class="hero-n">
+    <div class="huge fade" style="--i:1">40</div>
+    <div>
+      <h2 class="fade" style="--i:2">preguntas abiertas en 8 documentos</h2>
+      <div class="bars">
+        <div class="bar fade" style="--i:3"><span>Día de la actividad y guías</span><i style="width:100%"></i><b>7</b></div>
+        <div class="bar fade" style="--i:4"><span>Números y competencia</span><i style="width:100%"></i><b>7</b></div>
+        <div class="bar fade" style="--i:5"><span>Negocio y sistemas</span><i style="width:86%"></i><b>6</b></div>
+        <div class="bar fade" style="--i:6"><span>Alcance y plazos</span><i style="width:86%"></i><b>6</b></div>
+        <div class="bar fade" style="--i:7"><span>Reserva, pago y estado</span><i style="width:86%"></i><b>6</b></div>
+        <div class="bar fade" style="--i:8"><span>Quién decide</span><i style="width:71%"></i><b>5</b></div>
+        <div class="bar you fade" style="--i:9"><span>Para los PDs</span><i style="width:43%"></i><b>3</b></div>
+      </div>
+      <p class="legend fade" style="--i:10"><span>31 de las 40 tienen como responsable al Executive Lead, a Operations o a Sales.</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s8">
+  <p class="kicker fade">Próximos pasos</p>
+  <h2 class="fade" style="--i:1">Qué necesitamos de ustedes</h2>
+  <div class="asks">
+    <div class="you-box fade" style="--i:2">
+      <h3>Decisiones de los PDs</h3>
+      <div class="ask" data-n="01"><p><b>¿La Fase 1 incluye prototipo?</b><span>Y cuánto detalle técnico lleva el handoff.</span></p></div>
+      <div class="ask" data-n="02"><p><b>¿Sales es equipo o cliente?</b><span>Hoy figura ambiguo en el stakeholder map.</span></p></div>
+      <div class="ask" data-n="03"><p><b>¿El «pilot brief» es el PRD v0.9?</b><span>Confirmar o indicar cuál es.</span></p></div>
+    </div>
+    <div class="fade" style="--i:3">
+      <h3>Para llevar al cliente</h3>
+      <div class="ask" data-n="01"><p><b>Qué significan las ocho semanas</b><span>Prototipo, prueba con viajeros o lanzamiento. Executive Lead.</span></p></div>
+      <div class="ask" data-n="02"><p><b>Quién aprueba cada cambio en reservas pagadas</b><span>Operations.</span></p></div>
+      <div class="ask" data-n="03"><p><b>Números base</b><span>Reservas, abandono, soporte, tiempo manual. Executive Lead y Operations.</span></p></div>
+      <div class="ask" data-n="04"><p><b>Los ejemplos prometidos</b><span>Mensajes de reserva anonimizados y procesos. Operations los ofreció y no llegaron.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<div class="nav" role="group" aria-label="Navegación"><span id="ct">1 / 8</span><button id="pv" aria-label="Anterior">←</button><button id="nx" aria-label="Siguiente">→</button></div>
+
+<script>
+(function(){
+  var s=[].slice.call(document.querySelectorAll(".slide")),ct=document.getElementById("ct"),cur=0;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");cur=s.indexOf(e.target);ct.textContent=(cur+1)+" / "+s.length}})},{threshold:.55});
+  s.forEach(function(x){io.observe(x)});
+  function go(i){i=Math.max(0,Math.min(s.length-1,i));s[i].scrollIntoView()}
+  document.getElementById("nx").onclick=function(){go(cur+1)};
+  document.getElementById("pv").onclick=function(){go(cur-1)};
+  document.addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" "){e.preventDefault();go(cur+1)}
+    if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(cur-1)}
+  });
+})();
+</script>
+</body>
+</html>
